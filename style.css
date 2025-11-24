@@ -1,0 +1,217 @@
+/* --- CSS Variables & Reset --- */
+        :root {
+            --font-main: 'Inter', sans-serif;
+            --color-text-dark: #000000;
+            --color-text-body: #333333;
+            --color-bg-gradient-start: #fff5f5; /* Soft pinkish/beige tint */
+            --color-bg-gradient-end: #ffffff;
+            --btn-color: #0a0a0a;
+            
+            --container-width: 1280px;
+            --image-height: 500px; /* Height of scrolling images */
+            --image-width: 400px;
+            --gap: 24px;
+            --animation-speed: 30s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #ffffff;
+            overflow-x: hidden; /* Hide scrollbar from marquee */
+        }
+
+        /* --- Hero Container --- */
+        .hero-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* Subtle gradient background matching the reference */
+            background: linear-gradient(135deg, #ffebeb 0%, #fff9f0 40%, #ffffff 100%);
+            padding-top: 6rem;
+        }
+
+        /* --- Header Content Area --- */
+        .hero-content {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* Left is slightly larger */
+            gap: 4rem;
+            margin-bottom: 5rem;
+            align-items: end; /* Align text blocks to bottom of their container */
+        }
+
+        /* Left Column: Title */
+        .hero-headline-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: black;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 6.5rem;
+            font-weight: 600;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            color: var(--color-text-dark);
+        }
+
+        /* Right Column: Description & Buttons */
+        .hero-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            padding-bottom: 1rem; /* Align optical balance */
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--color-text-body);
+            max-width: 480px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn--primary {
+            background-color: var(--btn-color);
+            color: white;
+        }
+
+        .btn--secondary {
+            background-color: transparent;
+            color: var(--btn-color);
+            border-color: #e5e5e5;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* --- Moving Image Marquee --- */
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 4rem;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: var(--gap);
+            width: max-content;
+            /* Infinite scrolling animation */
+            animation: scrollHorizontal var(--animation-speed) linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused; /* Pause on hover */
+        }
+
+        .marquee-item {
+            width: var(--image-width);
+            height: var(--image-height);
+            flex-shrink: 0;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .marquee-item:hover .marquee-image {
+            transform: scale(1.05);
+        }
+
+        /* --- Animation Keyframes --- */
+        @keyframes scrollHorizontal {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* Move by exactly 50% of the track width if track is duplicated */
+                /* Or move strictly by pixel value. Here we assume simple scroll */
+                transform: translateX(calc(-1 * (var(--image-width) * 5 + var(--gap) * 5))); 
+            }
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            
+            :root {
+                --image-height: 350px;
+                --image-width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
